@@ -5,7 +5,7 @@ OBJECTS := \
 	tools/transpose.o \
 	tools/convert.o \
 
-all: libFM transpose convert
+all: libFM transpose convert hash_category
 
 libFM: libfm.o
 	mkdir -p $(BIN_DIR)
@@ -30,3 +30,6 @@ convert: tools/convert.o
 	mkdir -p $(BIN_DIR)
 	g++ -O3 tools/convert.o -o $(BIN_DIR)convert
 
+hash_category: tools/hash_category.o
+	mkdir -p $(BIN_DIR)
+	g++ -O3 tools/hash_category.o -o $(BIN_DIR)hash_category

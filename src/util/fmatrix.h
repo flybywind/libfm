@@ -59,7 +59,7 @@ template <typename T> class LargeSparseMatrix {
 		virtual sparse_row<T>& getRow() = 0; // pointer to the current row 
 		virtual uint getRowIndex() = 0; // index of current row (starting with 0)
 		virtual uint getNumRows() = 0; // get the number of Rows
-		virtual uint getNumCols() = 0; // get the number of Cols
+		virtual uint64 getNumCols() = 0; // get the number of Cols
 		virtual uint64 getNumValues() = 0; // get the number of Values
 		
 

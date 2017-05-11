@@ -88,7 +88,7 @@ class Data {
 		LargeSparseMatrix<DATA_FLOAT>* data;
 		DVector<DATA_FLOAT> target;
 
-		int num_feature;
+		uint64 num_feature;
 		uint num_cases;
  
 		DATA_FLOAT min_target;

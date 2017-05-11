@@ -52,7 +52,6 @@ int main(int argc, char **argv) {
 		std::string out_index_file = cmdline.getValue(index_file);
 		std::string opt_orig_index_file = cmdline.getValue(orig_index_file, "");
         std::map<uint, std::string> hash_map;
-		uint num_rows = 0;
         {
             uint origNum = 0;
             // 读取之前的索引数据
