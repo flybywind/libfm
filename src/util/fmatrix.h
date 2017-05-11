@@ -34,13 +34,13 @@
 const uint FMATRIX_EXPECTED_FILE_ID = 2;
 
 template <typename T> struct sparse_entry {
-    uint id;
+    uint64 id;
     T value;
 };
 	
 template <typename T> struct sparse_row {
 	sparse_entry<T>* data;
-	uint size;
+	uint64 size;
 };
 
 struct file_header {
@@ -48,7 +48,7 @@ struct file_header {
 	uint float_size;
 	uint64 num_values;
 	uint num_rows;
-	uint num_cols;
+	uint64 num_cols;
 }; 
 
 template <typename T> class LargeSparseMatrix {
@@ -118,7 +118,7 @@ template <typename T> class LargeSparseMatrixHD : public LargeSparseMatrix<T> {
 		uint64 number_of_valid_entries_in_cache;
 		uint row_index;
 
-		uint num_cols;
+		uint64 num_cols;
 		uint64 num_values;
 		uint num_rows;	
 
@@ -191,7 +191,7 @@ template <typename T> class LargeSparseMatrixHD : public LargeSparseMatrix<T> {
 //		~LargeSparseMatrixHD() { in.close(); }
 
 		virtual uint getNumRows() { return num_rows; };
-		virtual uint getNumCols() { return num_cols; };
+		virtual uint64 getNumCols() { return num_cols; };
 		virtual uint64 getNumValues() { return num_values; };
 
 		virtual void next() {
@@ -234,7 +234,7 @@ template <typename T> class LargeSparseMatrixMemory : public LargeSparseMatrix<T
 		 uint index;
 	public:
 		DVector< sparse_row<T> > data;
-		uint num_cols;
+		uint64 num_cols;
 		uint64 num_values;
 		virtual void begin() { index = 0; };
 		virtual bool end() { return index >= data.dim; }
@@ -242,7 +242,7 @@ template <typename T> class LargeSparseMatrixMemory : public LargeSparseMatrix<T
 		virtual sparse_row<T>& getRow() { return data(index); };
 		virtual uint getRowIndex() { return index; };
 		virtual uint getNumRows() { return data.dim; };
-		virtual uint getNumCols() { return num_cols; };
+		virtual uint64 getNumCols() { return num_cols; };
 		virtual uint64 getNumValues() { return num_values; };
 
 //		void loadFromTextFile(std::string filename);

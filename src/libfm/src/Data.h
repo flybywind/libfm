@@ -187,7 +187,8 @@ void Data::load(std::string filename) {
 			throw "unable to open " + filename;
 		}
 		DATA_FLOAT _value;
-		int nchar, _feature;
+		int nchar;
+        uint64 _feature;
 		while (!fData.eof()) {
 			std::string line;
 			std::getline(fData, line);
@@ -199,7 +200,7 @@ void Data::load(std::string filename) {
 				min_target = std::min(_value, min_target);
 				max_target = std::max(_value, max_target);			
 				num_rows++;
-				while (sscanf(pline, "%d:%f%n", &_feature, &_value, &nchar) >= 2) {
+				while (sscanf(pline, "%llu:%f%n", &_feature, &_value, &nchar) >= 2) {
 					pline += nchar;	
 					num_feature = std::max(_feature, num_feature);
 					has_feature = true;
@@ -238,7 +239,8 @@ void Data::load(std::string filename) {
 		int row_id = 0;
 		uint64 cache_id = 0;
 		DATA_FLOAT _value;
-		int nchar, _feature;
+		int nchar;
+        uint64 _feature;
 		while (!fData.eof()) {
 			std::string line;
 			std::getline(fData, line);
@@ -252,7 +254,7 @@ void Data::load(std::string filename) {
 				data.value[row_id].data = &(cache[cache_id]);
 				data.value[row_id].size = 0;
 			
-				while (sscanf(pline, "%d:%f%n", &_feature, &_value, &nchar) >= 2) {
+				while (sscanf(pline, "%llu:%f%n", &_feature, &_value, &nchar) >= 2) {
 					pline += nchar;	
 					assert(cache_id < num_values);
 					cache[cache_id].id = _feature;
