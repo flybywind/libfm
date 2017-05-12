@@ -34,6 +34,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <limits>
+
 typedef unsigned int uint;
 typedef unsigned long long int uint64;
 #ifdef _WIN32
