@@ -1,6 +1,6 @@
 // Copyright (C) 2017 yixia.com
 // create time: "2017/05/11 11:21"
-// ./hash_category 把category 特征hash成uniq id，同时输出映射表
+// ./hash_category 把category 特征hash成uniq id，同时输出映射表和映射后的libfm样本
 
 #include <cstdlib>
 #include <cstdio>

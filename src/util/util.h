@@ -34,9 +34,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "../libfm/src/Data.h"
 typedef unsigned int uint;
-
+typedef unsigned long long int uint64;
 #ifdef _WIN32
 namespace std {
 	bool isnan(double d) { return _isnan(d); }
