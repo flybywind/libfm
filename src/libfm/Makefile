@@ -4,6 +4,7 @@ OBJECTS := \
 	libfm.o \
 	tools/transpose.o \
 	tools/convert.o \
+	tools/hash_category.o
 
 all: libFM transpose convert hash_category
 

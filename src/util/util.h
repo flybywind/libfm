@@ -33,7 +33,8 @@
 
 #include <iostream>
 #include <fstream>
-
+#include <sstream>
+#include "../libfm/src/Data.h"
 typedef unsigned int uint;
 
 #ifdef _WIN32
@@ -94,5 +95,34 @@ bool fileexists(std::string filename) {
 	return in_file.is_open();		
 }
 
+bool str2long(const std::string& s, uint64& val) {
+    std::istringstream is(s);
+    is >> val;
+    if (!is) return false;
+    else return true;
+}
+
+uint64 str_hash(const std::string& x, uint64 seed, uint64 range, uint64 start ) {
+    uint64 hash_value = seed;
+    const char* xc = x.c_str();
+    int n = x.size();
+    for (int i = 0; i < n; ++i) {
+        hash_value += uint64(xc[i]) + (hash_value << 6) + (hash_value << 16) - hash_value;
+    }
+    return (std::numeric_limits<uint64>().max() & hash_value) % range + start;
+}
+void split_string(const std::string& s, const std::string& split,
+    std::vector<std::string>& out) {
+    size_t split_at = s.find_first_of(split, 0);
+    out.clear();
+    std::string left_str(s);
+    while (split_at != std::string::npos) {
+        std::string first_part = left_str.substr(0, split_at);
+        left_str = left_str.substr(split_at+1);
+        out.push_back(first_part);
+        split_at = left_str.find_first_of(split);
+    } 
+    return;
+}
 
 #endif /*UTIL_H_*/
