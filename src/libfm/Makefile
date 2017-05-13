@@ -4,9 +4,9 @@ OBJECTS := \
 	libfm.o \
 	tools/transpose.o \
 	tools/convert.o \
-	tools/hash_category.o
+	tools/transform_sample.o
 
-all: libFM transpose convert hash_category
+all: libFM transpose convert transform_sample
 
 libFM: libfm.o
 	mkdir -p $(BIN_DIR)
@@ -31,6 +31,6 @@ convert: tools/convert.o
 	mkdir -p $(BIN_DIR)
 	g++ $(FLAGS) tools/convert.o -o $(BIN_DIR)convert
 
-hash_category: tools/hash_category.o
+transform_sample: tools/transform_sample.o
 	mkdir -p $(BIN_DIR)
-	g++ $(FLAGS) tools/hash_category.o -o $(BIN_DIR)hash_category
+	g++ $(FLAGS) tools/transform_sample.o -o $(BIN_DIR)transform_sample

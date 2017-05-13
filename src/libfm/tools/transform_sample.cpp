@@ -60,14 +60,15 @@ int main(int argc, char **argv) {
                 while(!fConfigure.eof()) {
                     std::string line;
                     std::getline(fConfigure, line);
+                    if (line.size() == 0 || line[0] == '#') continue; 
                     std::vector<std::string> seg(3);
                     split_string(line, "\t", seg);
                     if (seg.size() < 3) {
-                        std::cerr << "configure format wrong: colum number less than 3" << std::endl;
+                        std::cerr << "configure format wrong: colum number less than 3:\nline is:\n" << line << std::endl;
                         exit(-1);
                     }
                     uint64 fid = 0L;
-                    if (str2long(seg[0], fid)) {
+                    if (!str2long(seg[0], fid)) {
                         std::cerr << "configure format wrong: can't convert first column to uint64 feature id" << std::endl;
                         exit(-1);
                     }
@@ -94,7 +95,11 @@ int main(int argc, char **argv) {
                             std::cerr << "parse feature range of " << fid << " failed!" << std::endl;
                             exit(-1);
                         }
-
+                        
+                        ConfigurEntry ce;
+                        ce.id = fid;
+                        ce.start_pos = start_pos;
+                        ce.range = range;
                         if (one_hot_feature_hash_map.count(fid) == 0) {
                             one_hot_feature_hash_map[fid] = new std::unordered_map<std::string, uint64>();
                             one_hot_feature_hash_set[fid] = new std::unordered_set<uint64>();

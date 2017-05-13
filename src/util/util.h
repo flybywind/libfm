@@ -97,10 +97,13 @@ bool fileexists(std::string filename) {
 }
 
 bool str2long(const std::string& s, uint64& val) {
-    std::istringstream is(s);
-    is >> val;
-    if (!is) return false;
-    else return true;
+    try {
+        val = std::stoull(s, nullptr, 10);
+        return true;
+    } catch(std::exception& e) {
+        std::cerr << "Warnning: convert to uint64 failed:" << e.what() << std::endl;
+        return false;
+    }
 }
 
 uint64 str_hash(const std::string& x, uint64 seed, uint64 range, uint64 start ) {
@@ -122,7 +125,8 @@ void split_string(const std::string& s, const std::string& split,
         left_str = left_str.substr(split_at+1);
         out.push_back(first_part);
         split_at = left_str.find_first_of(split);
-    } 
+    }
+    if (left_str.size() > 0) out.push_back(left_str);
     return;
 }
 
