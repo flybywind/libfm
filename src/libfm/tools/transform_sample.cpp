@@ -16,7 +16,9 @@
  * 
  * Version history:
  * 1.0.0:
- *	first version
+ *	    first version
+ * 1.1.0:
+ *      todo: 增加多特征映射表共享功能
  */
  
 using namespace std;
@@ -234,6 +236,10 @@ int main(int argc, char **argv) {
         }
 
         {
+            if (!fileexists(out_libfm_file)) {
+                std::cerr << "libfm output file: ["<< out_libfm_file << "] not exists!" << std::endl;
+                exit(-1);
+            }
             // 把特征转换成libFM特征
             std::ifstream iRawData(in_feature_file.c_str());
             std::ofstream oLibFM(out_libfm_file.c_str());
