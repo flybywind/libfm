@@ -100,6 +100,7 @@ int main(int argc, char **argv) {
                         ce.id = fid;
                         ce.start_pos = start_pos;
                         ce.range = range;
+                        configure_map[fid] = ce;
                         if (one_hot_feature_hash_map.count(fid) == 0) {
                             one_hot_feature_hash_map[fid] = new std::unordered_map<std::string, uint64>();
                             one_hot_feature_hash_set[fid] = new std::unordered_set<uint64>();
@@ -115,18 +116,19 @@ int main(int argc, char **argv) {
                                 while(!fOrigData.eof()) {
                                     std::string line;
                                     std::getline(fOrigData, line);
+                                    if (line.size() == 0 || line[0] == '#') continue;
                                     std::vector<std::string> seg;
                                     split_string(line, "\t", seg);
                                     if (seg.size() < 2) {
-                                        std::cerr << "parse origin index file failed! at line_no[" << line_no << "]:\n" << line << std::endl;
-                                        exit(-1);
+                                        std::cerr << "WARNING: ignore invalide index line at line_no[" << line_no << "]:\n" << line << std::endl;
+                                        continue;
                                     }
                                     uint64 indx_value ;
                                     if (!str2long(seg[1], indx_value)) {
                                         std::cerr << "convert " << seg[1] << "to long failed" << std::endl;
                                         exit(-1);
                                     }
-                                    hash_map->at(seg[1])= indx_value;
+                                    hash_map->insert(std::make_pair(seg[0], indx_value));
                                     hash_key_set->insert(indx_value);
                                     line_no ++;
                                 }
@@ -176,7 +178,7 @@ int main(int argc, char **argv) {
                         std::string feature_type = col_buf[1];
                         std::string feature_value = col_buf[2];
                         if (!str2long(col_buf[0], fid)) {
-                            std::cerr << "WARNING: invalid line at: " << line_no << "\n";
+                            std::cerr << "WARNING: fid invalid at line: " << line_no << "\n";
                             break;
                         }
                         if (feature_type == "oh") {
@@ -191,16 +193,17 @@ int main(int argc, char **argv) {
                             if (hash_map->count(feature_value) == 0) {
                                 uint64 hash_value = str_hash(feature_value, seed, range, start_pos);
                                 while (hash_key_set->count(hash_value) > 0) {
+                                    std::cout << "feature: " << feature_value <<", hash key = " << hash_value << "\n";
                                     uint64 step = rand()%range;
                                     if (std::numeric_limits<uint64>().max() - step > seed) {
                                         seed = step;
                                     } else {
                                         seed += step;
                                     }
-                                    std::cout << "INFO: hash meet conflict for: " << feature_value << ", new seed = " << seed << "\n";
+                                    std::cout << "INFO: hash meet conflict, new seed = " << seed << "\n";
                                     hash_value = str_hash(feature_value, seed, range, start_pos);
                                 }
-                                hash_map->at(feature_value) = hash_value;
+                                hash_map->insert(std::make_pair(feature_value, hash_value));
                                 hash_key_set->insert(hash_value);
                             }
                         }
@@ -252,7 +255,7 @@ int main(int argc, char **argv) {
                         if (segs.size() > 2) {
                             std::string fid_str = segs[0],
                                 type = segs[1],
-                                feature_value = segs[3];
+                                feature_value = segs[2];
                             uint64 fid;
                             if (!str2long(fid_str, fid)) {
                                  std::cerr << "WARNNING: fid `"<<fid_str<<"` can't convert to uint64, ignore ..." << "\n"; 
