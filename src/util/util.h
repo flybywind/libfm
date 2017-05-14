@@ -106,14 +106,14 @@ bool str2long(const std::string& s, uint64& val) {
     }
 }
 
-uint64 str_hash(const std::string& x, uint64 seed, uint64 range, uint64 start ) {
-    uint64 hash_value = seed;
+uint64 str_hash(const std::string& x, uint seed) {
+    uint hash_value = seed;
     const char* xc = x.c_str();
     int n = x.size();
     for (int i = 0; i < n; ++i) {
-        hash_value += uint64(xc[i]) + (hash_value << 6) + (hash_value << 16) - hash_value;
+        hash_value += uint(xc[i]) + (hash_value << 7) + (hash_value << 17) - hash_value;
     }
-    return (std::numeric_limits<uint64>().max() & hash_value) % range + start;
+    return uint64(hash_value);
 }
 void split_string(const std::string& s, const std::string& split,
     std::vector<std::string>& out) {
