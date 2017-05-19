@@ -71,7 +71,7 @@ void fm_pairSGD(fm_model* fm, const double& learn_rate, sparse_row<DATA_FLOAT> &
 			grad(x_neg.data[i].id) -= x_neg.data[i].value;
 		}
 		for (uint i = 0; i < x_pos.size; i++) {
-			uint64& attr_id = x_pos.data[i].id;
+			uint& attr_id = x_pos.data[i].id;
 			if (! grad_visited(attr_id)) {
 				double& w = fm->w(attr_id);
 				w -= learn_rate * (multiplier * grad(attr_id) + fm->regw * w);
@@ -79,7 +79,7 @@ void fm_pairSGD(fm_model* fm, const double& learn_rate, sparse_row<DATA_FLOAT> &
 			}
 		}
 		for (uint i = 0; i < x_neg.size; i++) {
-			uint64& attr_id = x_neg.data[i].id;
+			uint& attr_id = x_neg.data[i].id;
 			if (! grad_visited(attr_id)) {
 				double& w = fm->w(attr_id);
 				w -= learn_rate * (multiplier * grad(attr_id) + fm->regw * w);
@@ -104,7 +104,7 @@ void fm_pairSGD(fm_model* fm, const double& learn_rate, sparse_row<DATA_FLOAT> &
 			grad(x_neg.data[i].id) -= sum_neg(f) * x_neg.data[i].value - fm->v(f, x_neg.data[i].id) * x_neg.data[i].value * x_neg.data[i].value;
 		}
 		for (uint i = 0; i < x_pos.size; i++) {
-			uint64& attr_id = x_pos.data[i].id;
+			uint& attr_id = x_pos.data[i].id;
 			if (! grad_visited(attr_id)) {
 				double& v = fm->v(f,attr_id);
 				v -= learn_rate * (multiplier * grad(attr_id) + fm->regv * v);
@@ -112,7 +112,7 @@ void fm_pairSGD(fm_model* fm, const double& learn_rate, sparse_row<DATA_FLOAT> &
 			}
 		}
 		for (uint i = 0; i < x_neg.size; i++) {
-			uint64& attr_id = x_neg.data[i].id;
+			uint& attr_id = x_neg.data[i].id;
 			if (! grad_visited(attr_id)) {
 				double& v = fm->v(f,attr_id);
 				v -= learn_rate * (multiplier * grad(attr_id) + fm->regv * v);

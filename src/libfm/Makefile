@@ -1,5 +1,5 @@
 BIN_DIR := ../../bin/
-FLAGS := -g -O0 -Wall -std=c++11
+FLAGS := -g -O3 -Wall -std=c++11
 OBJECTS := \
 	libfm.o \
 	tools/transpose.o \

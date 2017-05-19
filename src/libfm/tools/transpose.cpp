@@ -114,7 +114,7 @@ int main(int argc, char **argv) {
 			{
 				// determine cache sizes automatically:
 				double avg_entries_per_line = (double) d_in.getNumValues() / d_in.getNumCols();
-				uint64 num_rows_in_cache = cache_size / (sizeof(sparse_entry<DATA_FLOAT>) * avg_entries_per_line + sizeof(uint));
+				uint num_rows_in_cache = cache_size / (sizeof(sparse_entry<DATA_FLOAT>) * avg_entries_per_line + sizeof(uint));
 				num_rows_in_cache = std::min(num_rows_in_cache, d_in.getNumCols());
 				uint64 num_entries_in_cache = (cache_size - sizeof(uint)*num_rows_in_cache) / sizeof(sparse_entry<DATA_FLOAT>);
 				num_entries_in_cache = std::min(num_entries_in_cache, d_in.getNumValues());

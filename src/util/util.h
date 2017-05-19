@@ -96,24 +96,33 @@ bool fileexists(std::string filename) {
 	return in_file.is_open();		
 }
 
-bool str2long(const std::string& s, uint64& val) {
+bool str2uint(const std::string& s, uint& val) {
     try {
-        val = std::stoull(s, nullptr, 10);
+        val = std::strtod(s.c_str(), nullptr);
         return true;
     } catch(std::exception& e) {
-        std::cerr << "Warnning: convert to uint64 failed:" << e.what() << std::endl;
+        std::cerr << "Warnning: convert to uint failed:" << e.what() << std::endl;
         return false;
     }
 }
 
-uint64 str_hash(const std::string& x, uint seed) {
-    uint hash_value = seed;
+int _str_hash(const std::string& x, int seed) {
+    int hash_value = seed;
     const char* xc = x.c_str();
     int n = x.size();
     for (int i = 0; i < n; ++i) {
-        hash_value += uint(xc[i]) + (hash_value << 7) + (hash_value << 17) - hash_value;
+        hash_value += int(xc[i]) + (hash_value << 6) + (hash_value << 16) - hash_value;
     }
-    return uint64(hash_value);
+    return hash_value & (std::numeric_limits<int>().max());
+}
+int str_hash(const std::string& x, int seed) {
+    int h = seed;
+    const char* xc = x.c_str();
+    int n = x.size();
+    for (int i = 0; i < n; ++i) {
+        h += (int(xc[i]) + (h << 5) - 11); 
+    }
+    return h;
 }
 void split_string(const std::string& s, const std::string& split,
     std::vector<std::string>& out) {

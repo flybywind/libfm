@@ -153,7 +153,7 @@ class fm_learn_mcmc : public fm_learn {
 						double& v_if = v[row_index];
 					
 						for (uint i_fd = 0; i_fd < feature_data->size; i_fd++) {	
-							uint64& train_case_index = feature_data->data[i_fd].id;		
+							uint& train_case_index = feature_data->data[i_fd].id;		
 							FM_FLOAT& x_li = feature_data->data[i_fd].value;	
 							m_cache[train_case_index].q += v_if * x_li;			
 						}
@@ -176,7 +176,7 @@ class fm_learn_mcmc : public fm_learn {
 						double& v_if = v[row_index + attr_offset];
 					
 						for (uint i_fd = 0; i_fd < feature_data->size; i_fd++) {	
-							uint64& train_case_index = feature_data->data[i_fd].id;		
+							uint& train_case_index = feature_data->data[i_fd].id;		
 							FM_FLOAT& x_li = feature_data->data[i_fd].value;	
 							rel_cache(r)[train_case_index].q += v_if * x_li;
 						}
@@ -233,7 +233,7 @@ class fm_learn_mcmc : public fm_learn {
 						double& v_if = v[row_index];
 			
 						for (uint i_fd = 0; i_fd < feature_data->size; i_fd++) {	
-							uint64& train_case_index = feature_data->data[i_fd].id;		
+							uint& train_case_index = feature_data->data[i_fd].id;		
 							FM_FLOAT& x_li = feature_data->data[i_fd].value;	
 							m_cache[train_case_index].q -= 0.5 * v_if * v_if * x_li * x_li;  
 						}
@@ -256,7 +256,7 @@ class fm_learn_mcmc : public fm_learn {
 						double& v_if = v[row_index + attr_offset];
 				
 						for (uint i_fd = 0; i_fd < feature_data->size; i_fd++) {	
-							uint64& train_case_index = feature_data->data[i_fd].id;		
+							uint& train_case_index = feature_data->data[i_fd].id;		
 							FM_FLOAT& x_li = feature_data->data[i_fd].value;	
 							rel_cache(r)[train_case_index].q -= 0.5 * v_if * v_if * x_li * x_li;
 						}
@@ -281,7 +281,7 @@ class fm_learn_mcmc : public fm_learn {
 						double& w_i = fm->w(row_index);						
 
 						for (uint i_fd = 0; i_fd < feature_data->size; i_fd++) {	
-							uint64& train_case_index = feature_data->data[i_fd].id;		
+							uint& train_case_index = feature_data->data[i_fd].id;		
 							FM_FLOAT& x_li = feature_data->data[i_fd].value;	
 							m_cache[train_case_index].q += w_i * x_li;
 						}
@@ -301,7 +301,7 @@ class fm_learn_mcmc : public fm_learn {
 						double& w_i = fm->w(row_index + attr_offset);						
 
 						for (uint i_fd = 0; i_fd < feature_data->size; i_fd++) {	
-							uint64& train_case_index = feature_data->data[i_fd].id;		
+							uint& train_case_index = feature_data->data[i_fd].id;		
 							FM_FLOAT& x_li = feature_data->data[i_fd].value;	
 							rel_cache(r)[train_case_index].q += w_i * x_li; 
 						}
@@ -390,7 +390,7 @@ class fm_learn_mcmc : public fm_learn {
 					}
 					double& v_if = v[row_index];
 					for (uint i_fd = 0; i_fd < feature_data->size; i_fd++) {	
-						uint64& train_case_index = feature_data->data[i_fd].id;		
+						uint& train_case_index = feature_data->data[i_fd].id;		
 						FM_FLOAT& x_li = feature_data->data[i_fd].value;	
 						cache[train_case_index].q += v_if * x_li;
 					}
@@ -528,7 +528,7 @@ class fm_learn_mcmc : public fm_learn {
 						double& v_if = v[row_index + attr_offset];
 				
 						for (uint i_fd = 0; i_fd < feature_data->size; i_fd++) {	
-							uint64& train_case_index = feature_data->data[i_fd].id;		
+							uint& train_case_index = feature_data->data[i_fd].id;		
 							FM_FLOAT& x_li = feature_data->data[i_fd].value;	
 							r_cache[train_case_index].q += v_if * x_li;			
 						}
@@ -663,7 +663,7 @@ class fm_learn_mcmc : public fm_learn {
 			double w_sigma_sqr = 0;
 			double w_mean = 0;
 			for (uint i_fd = 0; i_fd < feature_data.size; i_fd++) {	
-				uint64& train_case_index = feature_data.data[i_fd].id;		
+				uint& train_case_index = feature_data.data[i_fd].id;		
 				FM_FLOAT x_li = feature_data.data[i_fd].value;	
 				w_mean += x_li * (cache[train_case_index].e - w * x_li);
 				w_sigma_sqr += x_li * x_li;
@@ -701,7 +701,7 @@ class fm_learn_mcmc : public fm_learn {
 			}
 			// update error:
 			for (uint i_fd = 0; i_fd < feature_data.size; i_fd++) {	
-				uint64& train_case_index = feature_data.data[i_fd].id;	
+				uint& train_case_index = feature_data.data[i_fd].id;	
 				FM_FLOAT& x_li = feature_data.data[i_fd].value;	
 				double h = x_li;
 				cache[train_case_index].e -= h * (w_old - w);	
@@ -716,7 +716,7 @@ class fm_learn_mcmc : public fm_learn {
 			// w_mean = \sum h*e
 			uint num_all = 0;
 			for (uint i_fd = 0; i_fd < feature_data.size; i_fd++) {	
-				uint64& train_case_index = feature_data.data[i_fd].id;		
+				uint& train_case_index = feature_data.data[i_fd].id;		
 				FM_FLOAT x_li = feature_data.data[i_fd].value;	
 				//w_mean += x_li * (cache[train_case_index].e - w * x_li);
 				w_mean += x_li * r_cache[train_case_index].we;
@@ -759,7 +759,7 @@ class fm_learn_mcmc : public fm_learn {
 			}
 			// update error:
 			for (uint i_fd = 0; i_fd < feature_data.size; i_fd++) {	
-				uint64& train_case_index = feature_data.data[i_fd].id;	
+				uint& train_case_index = feature_data.data[i_fd].id;	
 				FM_FLOAT& x_li = feature_data.data[i_fd].value;	
 				double h = x_li;
 				r_cache[train_case_index].we -= h * (w_old - w) * r_cache[train_case_index].wnum;
@@ -774,7 +774,7 @@ class fm_learn_mcmc : public fm_learn {
 			// v_sigma_sqr = \sum h^2 (always)
 			// v_mean = \sum h*e (for non_internlock_interactions)
 			for (uint i_fd = 0; i_fd < feature_data.size; i_fd++) {	
-				uint64& train_case_index = feature_data.data[i_fd].id;		
+				uint& train_case_index = feature_data.data[i_fd].id;		
 				FM_FLOAT& x_li = feature_data.data[i_fd].value;
 				e_q_term* cache_li = &(cache[train_case_index]);
 				double h = x_li * ( cache_li->q - x_li * v);
@@ -816,7 +816,7 @@ class fm_learn_mcmc : public fm_learn {
 
 			// update error and q:
 			for (uint i_fd = 0; i_fd < feature_data.size; i_fd++) {	
-				uint64& train_case_index = feature_data.data[i_fd].id;		
+				uint& train_case_index = feature_data.data[i_fd].id;		
 				FM_FLOAT& x_li = feature_data.data[i_fd].value;	
 				e_q_term* cache_li = &(cache[train_case_index]);
 				double h = x_li * ( cache_li->q - x_li * v_old);
@@ -834,7 +834,7 @@ class fm_learn_mcmc : public fm_learn {
 			// v_mean = \sum h*e
 			uint num_all = 0;
 			for (uint i_fd = 0; i_fd < feature_data.size; i_fd++) {	
-				uint64& train_case_index = feature_data.data[i_fd].id;		
+				uint& train_case_index = feature_data.data[i_fd].id;		
 				FM_FLOAT x_li = feature_data.data[i_fd].value;	
 				relation_cache* cache_li = &(r_cache[train_case_index]);
 				double h = x_li * ( cache_li->q - x_li * v);
@@ -878,7 +878,7 @@ class fm_learn_mcmc : public fm_learn {
 
 			// update error and q:
 			for (uint i_fd = 0; i_fd < feature_data.size; i_fd++) {	
-				uint64& train_case_index = feature_data.data[i_fd].id;		
+				uint& train_case_index = feature_data.data[i_fd].id;		
 				FM_FLOAT x_li = feature_data.data[i_fd].value;	
 				relation_cache* cache_li = &(r_cache[train_case_index]);
 				double h = x_li * ( cache_li->q - x_li * v_old);

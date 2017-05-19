@@ -34,13 +34,13 @@
 const uint FMATRIX_EXPECTED_FILE_ID = 2;
 
 template <typename T> struct sparse_entry {
-    uint64 id;
+    uint id;
     T value;
 };
 	
 template <typename T> struct sparse_row {
 	sparse_entry<T>* data;
-	uint64 size;
+	uint size;
 };
 
 struct file_header {
@@ -48,7 +48,7 @@ struct file_header {
 	uint float_size;
 	uint64 num_values;
 	uint num_rows;
-	uint64 num_cols;
+	uint num_cols;
 }; 
 
 template <typename T> class LargeSparseMatrix {
@@ -59,7 +59,7 @@ template <typename T> class LargeSparseMatrix {
 		virtual sparse_row<T>& getRow() = 0; // pointer to the current row 
 		virtual uint getRowIndex() = 0; // index of current row (starting with 0)
 		virtual uint getNumRows() = 0; // get the number of Rows
-		virtual uint64 getNumCols() = 0; // get the number of Cols
+		virtual uint getNumCols() = 0; // get the number of Cols
 		virtual uint64 getNumValues() = 0; // get the number of Values
 		
 
@@ -118,7 +118,7 @@ template <typename T> class LargeSparseMatrixHD : public LargeSparseMatrix<T> {
 		uint64 number_of_valid_entries_in_cache;
 		uint row_index;
 
-		uint64 num_cols;
+		uint num_cols;
 		uint64 num_values;
 		uint num_rows;	
 
@@ -191,7 +191,7 @@ template <typename T> class LargeSparseMatrixHD : public LargeSparseMatrix<T> {
 //		~LargeSparseMatrixHD() { in.close(); }
 
 		virtual uint getNumRows() { return num_rows; };
-		virtual uint64 getNumCols() { return num_cols; };
+		virtual uint getNumCols() { return num_cols; };
 		virtual uint64 getNumValues() { return num_values; };
 
 		virtual void next() {
@@ -234,7 +234,7 @@ template <typename T> class LargeSparseMatrixMemory : public LargeSparseMatrix<T
 		 uint index;
 	public:
 		DVector< sparse_row<T> > data;
-		uint64 num_cols;
+		uint num_cols;
 		uint64 num_values;
 		virtual void begin() { index = 0; };
 		virtual bool end() { return index >= data.dim; }
@@ -242,7 +242,7 @@ template <typename T> class LargeSparseMatrixMemory : public LargeSparseMatrix<T
 		virtual sparse_row<T>& getRow() { return data(index); };
 		virtual uint getRowIndex() { return index; };
 		virtual uint getNumRows() { return data.dim; };
-		virtual uint64 getNumCols() { return num_cols; };
+		virtual uint getNumCols() { return num_cols; };
 		virtual uint64 getNumValues() { return num_values; };
 
 //		void loadFromTextFile(std::string filename);
