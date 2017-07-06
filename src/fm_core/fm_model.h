@@ -35,9 +35,9 @@
 
 class fm_model {
 	private:
-		DVector<double> m_sum, m_sum_sqr;
+		DVector<float> m_sum, m_sum_sqr;
 	public:
-		double w0;
+		float w0;
 		DVectorDouble w;
 		DMatrixDouble v;
 
@@ -48,17 +48,17 @@ class fm_model {
 		bool k0, k1;
 		int num_factor;
 		
-		double reg0;
-		double regw, regv;
+		float reg0;
+		float regw, regv;
 		
-		double init_stdev;
-		double init_mean;
+		float init_stdev;
+		float init_mean;
 		
 		fm_model();
 		void debug();
 		void init();
-		double predict(sparse_row<FM_FLOAT>& x);
-		double predict(sparse_row<FM_FLOAT>& x, DVector<double> &sum, DVector<double> &sum_sqr);
+		float predict(sparse_row<FM_FLOAT>& x);
+		float predict(sparse_row<FM_FLOAT>& x, DVector<float> &sum, DVector<float> &sum_sqr);
 		void saveModel(std::string model_file_path);
 		int loadModel(std::string model_file_path);
 	private:
@@ -100,12 +100,12 @@ void fm_model::init() {
 	m_sum_sqr.setSize(num_factor);
 }
 
-double fm_model::predict(sparse_row<FM_FLOAT>& x) {
+float fm_model::predict(sparse_row<FM_FLOAT>& x) {
 	return predict(x, m_sum, m_sum_sqr);		
 }
 
-double fm_model::predict(sparse_row<FM_FLOAT>& x, DVector<double> &sum, DVector<double> &sum_sqr) {
-	double result = 0;
+float fm_model::predict(sparse_row<FM_FLOAT>& x, DVector<float> &sum, DVector<float> &sum_sqr) {
+	float result = 0;
 	if (k0) {	
 		result += w0;
 	}
@@ -119,7 +119,7 @@ double fm_model::predict(sparse_row<FM_FLOAT>& x, DVector<double> &sum, DVector<
 		sum(f) = 0;
 		sum_sqr(f) = 0;
 		for (uint i = 0; i < x.size; i++) {
-			double d = v(f,x.data[i].id) * x.data[i].value;
+			float d = v(f,x.data[i].id) * x.data[i].value;
 			sum(f) += d;
 			sum_sqr(f) += d*d;
 		}

@@ -147,9 +147,9 @@ double ran_gamma(double alpha, double beta) {
 	return ran_gamma(alpha) / beta;
 }
 
-double ran_gaussian() {
+float ran_gaussian() {
 	// Joseph L. Leva: A fast normal Random number generator
-	double u,v, x, y, Q;
+	float u,v, x, y, Q;
 	do {
 		do {
 			u = ran_uniform();
@@ -163,7 +163,7 @@ double ran_gaussian() {
 	return v / u;
 }
 
-double ran_gaussian(double mean, double stdev) {
+float ran_gaussian(float mean, float stdev) {
 	if ((stdev == 0.0) || (std::isnan(stdev))) {
 		return mean;
 	} else {

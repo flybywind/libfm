@@ -327,9 +327,9 @@ template <typename T> class DVector {
 };
 
 
-class DVectorDouble : public DVector<double> {
+class DVectorDouble : public DVector<float> {
 	public:
-		void init_normal(double mean, double stdev) {	
+		void init_normal(float mean, float stdev) {	
 			for (uint i_2 = 0; i_2 < dim; i_2++) {
 				value[i_2] = ran_gaussian(mean, stdev);
 			}

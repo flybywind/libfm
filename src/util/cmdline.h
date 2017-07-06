@@ -131,7 +131,14 @@ class CMDLine {
 			}
 		}
 
-		const double getValue(const std::string& parameter, const double& default_value) {
+		float getValue(const std::string& parameter, const float& default_value) {
+			if (hasParameter(parameter)) {
+				return atof(value[parameter].c_str());
+			} else {
+				return default_value;
+			}
+		}
+		double getValue(const std::string& parameter, const double& default_value) {
 			if (hasParameter(parameter)) {
 				return atof(value[parameter].c_str());
 			} else {
@@ -139,7 +146,7 @@ class CMDLine {
 			}
 		}
 		
-		const long int getValue(const std::string& parameter, const long int& default_value) {
+		long int getValue(const std::string& parameter, const long int& default_value) {
 			if (hasParameter(parameter)) {
 				return atoi(value[parameter].c_str());
 			} else {
@@ -147,7 +154,7 @@ class CMDLine {
 			}
 		}
 
-		const int getValue(const std::string& parameter, const int& default_value) {
+		int getValue(const std::string& parameter, const int& default_value) {
 			if (hasParameter(parameter)) {
 				return atoi(value[parameter].c_str());
 			} else {
@@ -155,7 +162,7 @@ class CMDLine {
 			}
 		}
 
-		const uint getValue(const std::string& parameter, const uint& default_value) {
+		uint getValue(const std::string& parameter, const uint& default_value) {
 			if (hasParameter(parameter)) {
 				return atoi(value[parameter].c_str());
 			} else {
@@ -176,8 +183,8 @@ class CMDLine {
 			}
 			return result;
 		}
-		std::vector<double> getDblValues(const std::string& parameter) {
-			std::vector<double> result; 
+		std::vector<float> getFltValues(const std::string& parameter) {
+			std::vector<float> result; 
 			std::vector<std::string> result_str = getStrValues(parameter);
 			result.resize(result_str.size());
 			for (uint i = 0; i < result.size(); i++) {

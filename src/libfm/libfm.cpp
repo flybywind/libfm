@@ -233,7 +233,7 @@ int main(int argc, char **argv) {
 		fm_model fm;
 		{
 			fm.num_attribute = num_all_attribute;
-			fm.init_stdev = cmdline.getValue(param_init_stdev, 0.1);
+			fm.init_stdev = cmdline.getValue(param_init_stdev, 0.1f);
 			// set the number of dimensions in the factorization
 			{ 
 				vector<int> dim = cmdline.getIntValues(param_dim);
@@ -319,12 +319,12 @@ int main(int argc, char **argv) {
 		if (! cmdline.getValue(param_method).compare("mcmc")) {
 			// set the regularization; for als and mcmc this can be individual per group
 			{ 
-	 			vector<double> reg = cmdline.getDblValues(param_regular);
+	 			vector<float> reg = cmdline.getFltValues(param_regular);
 				assert((reg.size() == 0) || (reg.size() == 1) || (reg.size() == 3) || (reg.size() == (1+meta.num_attr_groups*2)));
 				if (reg.size() == 0) {
-					fm.reg0 = 0.0;
-					fm.regw = 0.0;
-					fm.regv = 0.0;
+					fm.reg0 = 0.0f;
+					fm.regw = 0.0f;
+					fm.regv = 0.0f;
 					((fm_learn_mcmc*)fml)->w_lambda.init(fm.regw);
 					((fm_learn_mcmc*)fml)->v_lambda.init(fm.regv);
 				} else if (reg.size() == 1) {
@@ -341,8 +341,8 @@ int main(int argc, char **argv) {
 					((fm_learn_mcmc*)fml)->v_lambda.init(fm.regv);
 				} else {
 					fm.reg0 = reg[0];
-					fm.regw = 0.0;
-					fm.regv = 0.0;
+					fm.regw = 0.0f;
+					fm.regv = 0.0f;
 					int j = 1;
 					for (uint g = 0; g < meta.num_attr_groups; g++) {
 						((fm_learn_mcmc*)fml)->w_lambda(g) = reg[j];
@@ -360,12 +360,12 @@ int main(int argc, char **argv) {
 		} else {
 			// set the regularization; for standard SGD, groups are not supported
 			{ 
-	 			vector<double> reg = cmdline.getDblValues(param_regular);
+	 			vector<float> reg = cmdline.getFltValues(param_regular);
 				assert((reg.size() == 0) || (reg.size() == 1) || (reg.size() == 3));
 				if (reg.size() == 0) {
-					fm.reg0 = 0.0;
-					fm.regw = 0.0;
-					fm.regv = 0.0;
+					fm.reg0 = 0.0f;
+					fm.regw = 0.0f;
+					fm.regv = 0.0f;
 				} else if (reg.size() == 1) {
 					fm.reg0 = reg[0];
 					fm.regw = reg[0];
@@ -382,7 +382,7 @@ int main(int argc, char **argv) {
 			if (fmlsgd) {
 				// set the learning rates (individual per layer)
 				{ 
-		 			vector<double> lr = cmdline.getDblValues(param_learn_rate);
+		 			vector<float> lr = cmdline.getFltValues(param_learn_rate);
 					assert((lr.size() == 1) || (lr.size() == 3));
 					if (lr.size() == 1) {
 						fmlsgd->learn_rate = lr[0];
